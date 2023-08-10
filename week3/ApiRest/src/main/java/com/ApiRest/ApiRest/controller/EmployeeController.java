@@ -1,40 +1,46 @@
 package com.ApiRest.ApiRest.controller;
+import com.ApiRest.ApiRest.Service.EmployeesService;
 import com.ApiRest.ApiRest.model.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.util.List;
 
 @RestController
 public class EmployeeController {
+    @Autowired
+    private EmployeesService eService;
 
-    //localhost:8080/employees
+    //localhost:8080/api/v1/employees
     @GetMapping("/employees")
-    public String getEmployees(){
-        return "displaying the list of employees";
+    public List<Employee> getEmployees(){
+        return eService.getEmployees();
     }
 
     //localhost:8080/employees/12
     @GetMapping("/employees/{id}")
-    public String getEmployee(@PathParam("id") Long id){
-        return "Fetching the employee details for the id " + id;
+    public Employee getEmployee(@PathVariable Long id){
+        return eService.getSingleEmployee(id);
     }
 
     @PostMapping("/employees")
-    public String saveEmployee(@RequestBody Employee employee){
-        return "Saving the employee details to the database" + employee;
+    public Employee saveEmployee(@RequestBody Employee employee){
+        return eService.saveEmployee(employee);
     }
 
     @PutMapping("/employees/{id}")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee){
-        System.out.println("Updating the employee data for the id " + id);
-        return employee;
+        employee.setId(id);
+        return eService.updateEmployee(employee);
 
     }
 
     //localhost:8080/employees?id=34
     @DeleteMapping("/employees")
-    public String deleteEmployee(@RequestParam Long id){
-        return "Deleting the employee details for the id " + id;
+    public void deleteEmployee(@RequestParam Long id){
+        eService.deleteEmployee(id);
 
     }
 
