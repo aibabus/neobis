@@ -1,0 +1,46 @@
+package com.onlineStore.onlineStore.Service;
+
+import com.onlineStore.onlineStore.Entity.User;
+import com.onlineStore.onlineStore.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserServiceImp implements UserService{
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public List<User> getUser() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User getSingleUser(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()){
+            return user.get();
+        }
+        throw new RuntimeException("User is not find " + id);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+}
