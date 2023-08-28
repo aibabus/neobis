@@ -1,5 +1,6 @@
 package com.shop.ShopApplication.controller;
 
+import com.shop.ShopApplication.register.AuthService;
 import com.shop.ShopApplication.service.UserService;
 import com.shop.ShopApplication.user.User;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -27,7 +28,6 @@ public class UserController {
     @DeleteMapping("/deleteUser/{id}")
     public void deleteUser(@RequestParam int id){
         userService.deleteUser(id);
-
     }
 
 
